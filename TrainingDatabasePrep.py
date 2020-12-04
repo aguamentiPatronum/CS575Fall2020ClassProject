@@ -18,11 +18,11 @@ class dbMaker():
         print("Initialized")
         
     def pullCSVs(self):
-        tempTopDir = os.path.abspath('/Volumes/Britt_SSD/Singularity2/Training/PacmanPowerPills')
+        tempTopDir = os.path.abspath('/Volumes/Britt_SSD/Singularity2/normalPillsInGame/Training')
         
         # For training data, need CSVs folder only (maybe make this the same for all?)
-        main_file = os.path.join(tempTopDir, 'CSVs/df1.csv')
-        secondary_file = os.path.join(tempTopDir, 'CSVs/df3.csv')
+        main_file = os.path.join(tempTopDir, 'df1.csv')
+        secondary_file = os.path.join(tempTopDir, 'df3.csv')
         
         self.makeDFs(main_file, secondary_file)
         return
@@ -51,13 +51,13 @@ class dbMaker():
         # Convert DataFrame to Apache Arrow Table
         table = pa.Table.from_pandas(self.complete_df)
         # Parquet with Brotli compression
-        pq.write_table(table, 'PowerPillsOnlyDB.parquet', compression='BROTLI')
+        pq.write_table(table, 'NormalPillsInGameDB.parquet', compression='BROTLI')
         # And save to CSV for permanent storage
-        self.complete_df.to_csv('PowerPillsOnlyDB.csv')
+        self.complete_df.to_csv('NormalPillsInGameDB.csv')
         return
         
     def testPQ(self):
-        temp_test = pd.read_parquet('PowerPillsOnlyDB.parquet')
+        temp_test = pd.read_parquet('NormalPillsInGameDB.parquet')
         print(temp_test.head(3).to_markdown())
 
 
